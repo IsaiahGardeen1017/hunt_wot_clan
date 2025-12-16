@@ -25,7 +25,7 @@ export type EquipmentDataMap = Record<string, {
 
 export type TankDataMap = Record<string, TankData>;
 
-export type Response<D> = {
+export type WotApiResponse<D> = {
 	status: string;
 	meta: {
 		count: number;
@@ -37,25 +37,23 @@ export type Response<D> = {
 	data: D;
 };
 
-export async function fetchVehicleDataBase(): Promise<TankDataMap> {
+export async function fetchVehicleDataBase(tiers: number[] = [10]): Promise<TankDataMap> {
 	const queries = {
-		application_id: 'd75690e34140cb77b975b505fdb03a2f',
+		application_id: Deno.env.get('WOT_APP_ID') || '',
 		fields: 'name,short_name,tag,tank_id,tier,type,images,nation,provisions',
-		tier: '10',
-		nation: 'usa',
+		tier: tiers.join(','),
 	};
 	const reqUrl = `${BASE_URL}/encyclopedia/vehicles/${queryString(queries)}`;
-	console.log(reqUrl);
 
 	const response = await fetch(reqUrl, { method: 'GET' });
 
-	const body = (await response.json()) as Response<TankDataMap>;
+	const body = (await response.json()) as WotApiResponse<TankDataMap>;
 	return body.data;
 }
 
 export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {
 	const queries = {
-		application_id: 'd75690e34140cb77b975b505fdb03a2f',
+		application_id: Deno.env.get('WOT_APP_ID') || '',
 		fields: 'image,provision_id,tag,name',
 	};
 	const reqUrl = `${BASE_URL}/encyclopedia/provisions/${queryString(queries)}`;
@@ -63,9 +61,10 @@ export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {
 
 	const response = await fetch(reqUrl, { method: 'GET' });
 
-	const body = (await response.json()) as Response<EquipmentDataMap>;
+	const body = (await response.json()) as WotApiResponse<EquipmentDataMap>;
 	return body.data;
 }
+
 
 export function queryString(queries: Record<string, string>): string {
 	const args = [];
@@ -83,5 +82,3 @@ export function recordToList<V>(record: Record<string, V>): V[] {
 	}
 	return arr;
 }
-
-//https://api.worldoftanks.com/wot/encyclopedia/vehicles/?application_id=d75690e34140cb77b975b505fdb03a2f&fields=name%2Cshort_name%2Ctag%2Ctank_id%2Ctier%2Ctype%2Cimages

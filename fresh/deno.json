@@ -6,6 +6,7 @@
         "build": "vite build",
         "start": "deno serve -A _fresh/server.js",
         "update": "deno run -A -r jsr:@fresh/update .",
+        "bldsrc": "deno run -A --env-file src/build/buildIndex.ts",
         "test": "deno run -A src/test.ts"
     },
     "fmt": {
