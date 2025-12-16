@@ -1,22 +1,31 @@
-console.log('starting');
-
 const BASE_URL = 'https://api.worldoftanks.com/wot';
 
 export type TankData = {
-	name: string;
-	short_name: string;
-	tier: number;
-	tag: string;
-	images: {
+	name?: string;
+	short_name?: string;
+	tier?: number;
+	tag?: string;
+	images?: {
 		small_icon: string;
 		contour_icon: string;
 		big_icon: string;
 	};
-	type: string;
-	tank_id: number;
+	type?: string;
+	tank_id?: number;
+	provisions?: number[];
 };
 
-export type TankDataResponse = {
+export type EquipmentDataMap = Record<string, {
+	image?: string;
+	provision_id?: string;
+	tag?: string;
+	name?: string;
+	description?: string;
+}>;
+
+export type TankDataMap = Record<string, TankData>;
+
+export type Response<D> = {
 	status: string;
 	meta: {
 		count: number;
@@ -25,28 +34,40 @@ export type TankDataResponse = {
 		limit: number;
 		page: any;
 	};
-	data: Record<string, TankData>;
+	data: D;
 };
 
-export async function fetchVehicleDataBase(): Promise<Record<string, TankData>> {
+export async function fetchVehicleDataBase(): Promise<TankDataMap> {
 	const queries = {
 		application_id: 'd75690e34140cb77b975b505fdb03a2f',
-		fields: 'name,short_name,tag,tank_id,tier,type,images,nation',
+		fields: 'name,short_name,tag,tank_id,tier,type,images,nation,provisions',
 		tier: '10',
 		nation: 'usa',
 	};
 	const reqUrl = `${BASE_URL}/encyclopedia/vehicles/${queryString(queries)}`;
 	console.log(reqUrl);
-	console.log(
-		'https://api.worldoftanks.com/wot/encyclopedia/vehicles/?application_id=d75690e34140cb77b975b505fdb03a2f&fields=name%2Cshort_name%2Ctag%2Ctank_id%2Ctier%2Ctype%2Cimages&tier=10',
-	);
+
 	const response = await fetch(reqUrl, { method: 'GET' });
 
-	const body = (await response.json()) as TankDataResponse;
+	const body = (await response.json()) as Response<TankDataMap>;
 	return body.data;
 }
 
-function queryString(queries: Record<string, string>): string {
+export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {
+	const queries = {
+		application_id: 'd75690e34140cb77b975b505fdb03a2f',
+		fields: 'image,provision_id,tag,name',
+	};
+	const reqUrl = `${BASE_URL}/encyclopedia/provisions/${queryString(queries)}`;
+	console.log(reqUrl);
+
+	const response = await fetch(reqUrl, { method: 'GET' });
+
+	const body = (await response.json()) as Response<EquipmentDataMap>;
+	return body.data;
+}
+
+export function queryString(queries: Record<string, string>): string {
 	const args = [];
 	for (const key in queries) {
 		// URLSearchParams automatically handles encoding (sanitization)
