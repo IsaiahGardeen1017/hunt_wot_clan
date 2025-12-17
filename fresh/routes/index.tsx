@@ -10,7 +10,7 @@ export default async function Index() {
 	const equipDict = await getEquipmentDictionary();
 
 	return (
-		<div class='px-4 py-8 mx-auto fresh-gradient min-h-screen'>
+		<div class='px-4 py-8 mx-auto hunt-gradient min-h-screen'>
 			<Head>
 				<title>HUNT</title>
 			</Head>
