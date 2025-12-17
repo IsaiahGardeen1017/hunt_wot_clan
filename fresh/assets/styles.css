@@ -3,4 +3,5 @@
 .hunt-gradient {
   background: #792a9b;
   background: linear-gradient(124deg, rgba(121, 42, 155, 1) 0%, rgba(87, 154, 199, 1) 77%, rgba(62, 181, 117, 1) 100%);
+  color: white;
 }
