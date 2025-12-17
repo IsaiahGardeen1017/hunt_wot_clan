@@ -1,10 +1,6 @@
-import { useSignal } from '@preact/signals';
 import { Head } from 'fresh/runtime';
-import { define } from '../utils.ts';
-import Counter from '../islands/Counter.tsx';
-import { EquipmentData, fetchEquipmentMetaData, fetchVehicleDataBase, recordToList, TankData } from '../src/fetchWotData.ts';
 import { TankEntry } from '../components/TankEntry.tsx';
-import { getEquipmentDictionary, getTankDictionary, subDictionary } from '../src/staticDataUtils.ts';
+import { getEquipmentDictionary, getTankDictionary } from '../src/staticDataUtils.ts';
 import { EquipmentLoadout, getLoadouts, getRecommendedTankIds } from '../src/fetchSpreadsheetData.ts';
 
 export default async function Index() {
@@ -13,11 +9,10 @@ export default async function Index() {
 	const allLoadouts = await getLoadouts();
 	const equipDict = await getEquipmentDictionary();
 
-
 	return (
 		<div class='px-4 py-8 mx-auto fresh-gradient min-h-screen'>
 			<Head>
-				<title>HUNT clan recomendations</title>
+				<title>HUNT</title>
 			</Head>
 			<div>
 				{recommendedTankIds.map((tankId) => {
