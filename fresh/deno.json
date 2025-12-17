@@ -6,8 +6,9 @@
         "build": "vite build",
         "start": "deno serve -A _fresh/server.js",
         "update": "deno run -A -r jsr:@fresh/update .",
-        "bldsrc": "deno run -A --env-file src/build/buildIndex.ts",
-        "test": "deno run -A src/test.ts"
+        "bldsrc": "deno run -A --env-file src/build/index.ts",
+        "test": "deno run -A --env-file src/build/index.ts && deno run -A src/test.ts",
+        "stgg": "deno run -A src/build/stgg.ts"
     },
     "fmt": {
         "options": {
@@ -36,7 +37,8 @@
         "@fresh/plugin-vite": "jsr:@fresh/plugin-vite@^1.0.8",
         "vite": "npm:vite@^7.1.3",
         "tailwindcss": "npm:tailwindcss@^4.1.10",
-        "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.12"
+        "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.1.12",
+        "puppeteer": "npm:puppeteer"
     },
     "compilerOptions": {
         "lib": [

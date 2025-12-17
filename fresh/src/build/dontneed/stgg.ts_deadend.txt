@@ -1,0 +1,3679 @@
+// deno-fmt-ignore-file
+const codes = [
+	'0',
+	'1',
+	'2',
+	'3',
+	'4',
+	'5',
+	'6',
+	'7',
+	'8',
+	'9',
+	'A',
+	'B',
+	'C',
+	'D',
+	'E',
+	'F',
+	'G',
+	'H',
+	'I',
+	'J',
+	'K',
+	'L',
+	'M',
+	'N',
+	'O',
+	'P',
+	'Q',
+	'R',
+	'S',
+	'T',
+	'U',
+	'V',
+	'W',
+	'X',
+	'Y',
+	'Z',
+
+	'10',
+	'11',
+	'12',
+	'13',
+	'14',
+	'15',
+	'16',
+	'17',
+	'18',
+	'19',
+	'1A',
+	'1B',
+	'1C',
+	'1D',
+	'1E',
+	'1F',
+	'1G',
+	'1H',
+	'1I',
+	'1J',
+	'1K',
+	'1L',
+	'1M',
+	'1N',
+	'1O',
+];
+
+const data = {
+    "equipment": [
+        {
+            "id": "deluxImprovedConfiguration",
+            "index": 43,
+            "name": "Improved Configuration",
+            "desc": "",
+            "tags": "improvedConfiguration deluxe armor",
+            "icon": "improvedConfiguration",
+            "price": 0,
+            "crystal_price": 3000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleRepairSpeed",
+                    "desc": "to repair speed",
+                    "value": 1.45
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 2.5
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.3
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.3
+                },
+                {
+                    "type": "vehicleFireChance",
+                    "desc": "to the chance of engine fire",
+                    "value": 0.3
+                }
+            ],
+            "min_tier": 5
+        },
+        {
+            "id": "deluxImprovedVentilation",
+            "index": 44,
+            "name": "Venting System",
+            "desc": "",
+            "tags": "ventilation deluxe armor firepower camouflage reconnaissance mobility",
+            "icon": "improvedVentilation",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "crewLevel",
+                    "desc": "to crew efficiency bonus",
+                    "value": 1.085
+                }
+            ],
+            "include_tags": "improvedVentilation_class1_user improvedVentilation_class2_user improvedVentilation_class3_user"
+        },
+        {
+            "id": "deluxRammer",
+            "index": 45,
+            "name": "Innovative Loading System",
+            "desc": "",
+            "tags": "rammer deluxe firepower",
+            "icon": "rammer",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleGunReloadTime",
+                    "desc": "to reload time",
+                    "value": 0.865
+                }
+            ],
+            "include_tags": "tankRammer_class1_user tankRammer_class2_user"
+        },
+        {
+            "id": "deluxCoatedOptics",
+            "index": 46,
+            "name": "Experimental Optics",
+            "desc": "",
+            "tags": "coatedOptics deluxe reconnaissance",
+            "icon": "coatedOptics",
+            "price": 0,
+            "crystal_price": 4000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleCircularVisionRadius",
+                    "desc": "to view range (up to 445 m)",
+                    "value": 1.135
+                }
+            ]
+        },
+        {
+            "id": "deluxAimingStabilizer",
+            "index": 47,
+            "name": "Stabilizing Equipment System",
+            "desc": "",
+            "tags": "aimingStabilizer deluxe firepower",
+            "icon": "aimingStabilizer",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.725
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user"
+        },
+        {
+            "id": "deluxEnhancedAimDrives",
+            "index": 48,
+            "name": "Wear-Resistant Gun Laying Drive",
+            "desc": "",
+            "tags": "enhancedAimDrives deluxe firepower",
+            "icon": "enhancedAimDrives",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.135
+                }
+            ]
+        },
+        {
+            "id": "trophyBasicAimDrives",
+            "index": 50,
+            "name": "Bounty Gun Laying Drive",
+            "desc": "",
+            "tags": "enhancedAimDrives firepower trophyBasic",
+            "icon": "enhancedAimDrives",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.1
+                }
+            ]
+        },
+        {
+            "id": "trophyUpgradedAimDrives",
+            "index": 51,
+            "name": "Bounty Gun Laying Drive",
+            "desc": "",
+            "tags": "enhancedAimDrives firepower trophyUpgraded",
+            "icon": "enhancedAimDrives",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.125
+                }
+            ]
+        },
+        {
+            "id": "trophyBasicTankRammer",
+            "index": 52,
+            "name": "Bounty Rammer",
+            "desc": "",
+            "tags": "rammer firepower trophyBasic",
+            "icon": "rammer",
+            "price": 100000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleGunReloadTime",
+                    "desc": "to reload time",
+                    "value": 0.9
+                }
+            ],
+            "include_tags": "tankRammer_class1_user tankRammer_class2_user"
+        },
+        {
+            "id": "trophyUpgradedTankRammer",
+            "index": 53,
+            "name": "Bounty Rammer",
+            "desc": "",
+            "tags": "rammer firepower trophyUpgraded",
+            "icon": "rammer",
+            "price": 100000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleGunReloadTime",
+                    "desc": "to reload time",
+                    "value": 0.875
+                }
+            ],
+            "include_tags": "tankRammer_class1_user tankRammer_class2_user"
+        },
+        {
+            "id": "trophyBasicImprovedVentilation",
+            "index": 54,
+            "name": "Bounty Ventilation",
+            "desc": "",
+            "tags": "ventilation trophyBasic armor firepower camouflage reconnaissance mobility",
+            "icon": "improvedVentilation",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "crewLevel",
+                    "desc": "to crew efficiency bonus",
+                    "value": 1.05
+                }
+            ],
+            "include_tags": "improvedVentilation_class1_user improvedVentilation_class2_user improvedVentilation_class3_user"
+        },
+        {
+            "id": "trophyUpgradedImprovedVentilation",
+            "index": 55,
+            "name": "Bounty Ventilation",
+            "desc": "",
+            "tags": "ventilation trophyUpgraded armor firepower camouflage reconnaissance mobility",
+            "icon": "improvedVentilation",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "crewLevel",
+                    "desc": "to crew efficiency bonus",
+                    "value": 1.075
+                }
+            ],
+            "include_tags": "improvedVentilation_class1_user improvedVentilation_class2_user improvedVentilation_class3_user"
+        },
+        {
+            "id": "trophyBasicAimingStabilizer",
+            "index": 56,
+            "name": "Bounty Stabilizer",
+            "desc": "",
+            "tags": "aimingStabilizer trophyBasic firepower",
+            "icon": "aimingStabilizer",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.8
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user"
+        },
+        {
+            "id": "trophyUpgradedAimingStabilizer",
+            "index": 57,
+            "name": "Bounty Stabilizer",
+            "desc": "",
+            "tags": "aimingStabilizer trophyUpgraded firepower",
+            "icon": "aimingStabilizer",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.75
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user"
+        },
+        {
+            "id": "trophyBasicCoatedOptics",
+            "index": 58,
+            "name": "Bounty Optics",
+            "desc": "",
+            "tags": "coatedOptics trophyBasic reconnaissance",
+            "icon": "coatedOptics",
+            "price": 100000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleCircularVisionRadius",
+                    "desc": "to view range (up to 445 m)",
+                    "value": 1.1
+                }
+            ]
+        },
+        {
+            "id": "trophyUpgradedCoatedOptics",
+            "index": 59,
+            "name": "Bounty Optics",
+            "desc": "",
+            "tags": "coatedOptics trophyUpgraded reconnaissance",
+            "icon": "coatedOptics",
+            "price": 100000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleCircularVisionRadius",
+                    "desc": "to view range (up to 445 m)",
+                    "value": 1.125
+                }
+            ]
+        },
+        {
+            "id": "improvedConfiguration_tier2",
+            "index": 61,
+            "name": "Modified Configuration Class 2",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "improvedConfiguration armor",
+            "icon": "improvedConfiguration",
+            "price": 200000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleRepairSpeed",
+                    "desc": "to repair speed",
+                    "value": 1.25,
+                    "specValue": 1.35
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 2,
+                    "specValue": 2.5
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.5,
+                    "specValue": 0.35
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.5,
+                    "specValue": 0.35
+                },
+                {
+                    "type": "vehicleFireChance",
+                    "desc": "to the chance of engine fire",
+                    "value": 0.5,
+                    "specValue": 0.35
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "improvedConfiguration_tier1",
+            "index": 62,
+            "name": "Modified Configuration Class 1",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "improvedConfiguration armor",
+            "icon": "improvedConfiguration",
+            "price": 600000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleRepairSpeed",
+                    "desc": "to repair speed",
+                    "value": 1.25,
+                    "specValue": 1.35
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 2,
+                    "specValue": 2.5
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.5,
+                    "specValue": 0.35
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.5,
+                    "specValue": 0.35
+                },
+                {
+                    "type": "vehicleFireChance",
+                    "desc": "to the chance of engine fire",
+                    "value": 0.5,
+                    "specValue": 0.35
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "antifragmentationLining_tier4",
+            "index": 63,
+            "name": "Light Spall Liner",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "antifragmentationLining armor",
+            "icon": "antifragmentationLining",
+            "price": 50000,
+            "weight": 250,
+            "factors": [
+                {
+                    "type": "vehicleHEShellDamageResistance",
+                    "desc": "to HE shell damage",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "vehicleRamDamageResistance",
+                    "desc": "to ramming damage received",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "crewHitChance",
+                    "desc": "to crew protection from injuries",
+                    "value": 1.5,
+                    "specValue": 1.6
+                },
+                {
+                    "type": "crewStunDuration",
+                    "desc": "to stun duration",
+                    "value": 0.9,
+                    "specValue": 0.85
+                },
+                {
+                    "type": "crewRepeatedStunDuration",
+                    "desc": "to additional stun duration",
+                    "value": 0.8,
+                    "specValue": 0.75
+                }
+            ],
+            "include_tags": "antifragmentationLining_light_user"
+        },
+        {
+            "id": "antifragmentationLining_tier3",
+            "index": 64,
+            "name": "Medium Spall Liner",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "antifragmentationLining armor",
+            "icon": "antifragmentationLining",
+            "price": 200000,
+            "weight": 500,
+            "factors": [
+                {
+                    "type": "vehicleHEShellDamageResistance",
+                    "desc": "to HE shell damage",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "vehicleRamDamageResistance",
+                    "desc": "to ramming damage received",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "crewHitChance",
+                    "desc": "to crew protection from injuries",
+                    "value": 1.5,
+                    "specValue": 1.6
+                },
+                {
+                    "type": "crewStunDuration",
+                    "desc": "to stun duration",
+                    "value": 0.9,
+                    "specValue": 0.85
+                },
+                {
+                    "type": "crewRepeatedStunDuration",
+                    "desc": "to additional stun duration",
+                    "value": 0.8,
+                    "specValue": 0.75
+                }
+            ],
+            "include_tags": "antifragmentationLining_medium_user"
+        },
+        {
+            "id": "antifragmentationLining_tier2",
+            "index": 65,
+            "name": "Heavy Spall Liner",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "antifragmentationLining armor",
+            "icon": "antifragmentationLining",
+            "price": 500000,
+            "weight": 1000,
+            "factors": [
+                {
+                    "type": "vehicleHEShellDamageResistance",
+                    "desc": "to HE shell damage",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "vehicleRamDamageResistance",
+                    "desc": "to ramming damage received",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "crewHitChance",
+                    "desc": "to crew protection from injuries",
+                    "value": 1.5,
+                    "specValue": 1.6
+                },
+                {
+                    "type": "crewStunDuration",
+                    "desc": "to stun duration",
+                    "value": 0.9,
+                    "specValue": 0.85
+                },
+                {
+                    "type": "crewRepeatedStunDuration",
+                    "desc": "to additional stun duration",
+                    "value": 0.8,
+                    "specValue": 0.75
+                }
+            ],
+            "include_tags": "antifragmentationLining_heavy_user"
+        },
+        {
+            "id": "antifragmentationLining_tier1",
+            "index": 66,
+            "name": "Superheavy Spall Liner",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "antifragmentationLining armor",
+            "icon": "antifragmentationLining",
+            "price": 750000,
+            "weight": 1500,
+            "factors": [
+                {
+                    "type": "vehicleHEShellDamageResistance",
+                    "desc": "to HE shell damage",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "vehicleRamDamageResistance",
+                    "desc": "to ramming damage received",
+                    "value": 0.5,
+                    "specValue": 0.4
+                },
+                {
+                    "type": "crewHitChance",
+                    "desc": "to crew protection from injuries",
+                    "value": 1.5,
+                    "specValue": 1.6
+                },
+                {
+                    "type": "crewStunDuration",
+                    "desc": "to stun duration",
+                    "value": 0.9,
+                    "specValue": 0.85
+                },
+                {
+                    "type": "crewRepeatedStunDuration",
+                    "desc": "to additional stun duration",
+                    "value": 0.8,
+                    "specValue": 0.75
+                }
+            ],
+            "include_tags": "antifragmentationLining_superheavy_user"
+        },
+        {
+            "id": "stereoscope_tier3",
+            "index": 67,
+            "name": "Binocular Telescope Class 3",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "stereoscope reconnaissance",
+            "icon": "stereoscope",
+            "price": 50000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleStillCircularVisionRadius",
+                    "desc": "to the view range of a stationary vehicle (up to 445 m)",
+                    "value": 1.25,
+                    "specValue": 1.275
+                }
+            ],
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "stereoscope_tier2",
+            "index": 68,
+            "name": "Binocular Telescope Class 2",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "stereoscope reconnaissance",
+            "icon": "stereoscope",
+            "price": 200000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleStillCircularVisionRadius",
+                    "desc": "to the view range of a stationary vehicle (up to 445 m)",
+                    "value": 1.25,
+                    "specValue": 1.275
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "stereoscope_tier1",
+            "index": 69,
+            "name": "Binocular Telescope Class 1",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "stereoscope reconnaissance",
+            "icon": "stereoscope",
+            "price": 600000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleStillCircularVisionRadius",
+                    "desc": "to the view range of a stationary vehicle (up to 445 m)",
+                    "value": 1.25,
+                    "specValue": 1.275
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "coatedOptics_tier3",
+            "index": 70,
+            "name": "Coated Optics Class 3",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "coatedOptics reconnaissance",
+            "icon": "coatedOptics",
+            "price": 50000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleCircularVisionRadius",
+                    "desc": "to view range (up to 445 m)",
+                    "value": 1.1,
+                    "specValue": 1.115
+                }
+            ],
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "coatedOptics_tier2",
+            "index": 71,
+            "name": "Coated Optics Class 2",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "coatedOptics reconnaissance",
+            "icon": "coatedOptics",
+            "price": 200000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleCircularVisionRadius",
+                    "desc": "to view range (up to 445 m)",
+                    "value": 1.1,
+                    "specValue": 1.115
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "coatedOptics_tier1",
+            "index": 72,
+            "name": "Coated Optics Class 1",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "coatedOptics reconnaissance",
+            "icon": "coatedOptics",
+            "price": 600000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleCircularVisionRadius",
+                    "desc": "to view range (up to 445 m)",
+                    "value": 1.1,
+                    "specValue": 1.115
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "camouflageNet_tier3",
+            "index": 73,
+            "name": "Camouflage Net Class 3",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "camouflageNet camouflage",
+            "icon": "camouflageNet",
+            "price": 50000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleStillCamouflage",
+                    "desc": "to concealment of a stationary vehicle",
+                    "value": 1.15,
+                    "specValue": 1.175,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleStillCamouflage",
+                    "desc": "to concealment of a stationary vehicle",
+                    "value": 1.1,
+                    "specValue": 1.125,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleStillCamouflage",
+                    "desc": "to concealment of a stationary vehicle",
+                    "value": 1.05,
+                    "specValue": 1.075,
+                    "restriction": "heavyTank SPG"
+                }
+            ],
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "camouflageNet_tier2",
+            "index": 74,
+            "name": "Camouflage Net Class 2",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "camouflageNet camouflage",
+            "icon": "camouflageNet",
+            "price": 100000,
+            "weight": 50,
+            "factors": [
+                {
+                    "type": "vehicleStillCamouflage",
+                    "desc": "to concealment of a stationary vehicle",
+                    "value": 1.15,
+                    "specValue": 1.175,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleStillCamouflage",
+                    "desc": "to concealment of a stationary vehicle",
+                    "value": 1.1,
+                    "specValue": 1.125,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleStillCamouflage",
+                    "desc": "to concealment of a stationary vehicle",
+                    "value": 1.05,
+                    "specValue": 1.075,
+                    "restriction": "heavyTank SPG"
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "improvedVentilation_tier3",
+            "index": 75,
+            "name": "Improved Ventilation Class 3",
+            "desc": "",
+            "categories": "firepower mobility stealth survivability",
+            "tags": "ventilation armor firepower camouflage reconnaissance mobility",
+            "icon": "improvedVentilation",
+            "price": 50000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "crewLevel",
+                    "desc": "to crew efficiency bonus",
+                    "value": 1.05,
+                    "specValue": 1.06
+                }
+            ],
+            "include_tags": "improvedVentilation_class3_user"
+        },
+        {
+            "id": "improvedVentilation_tier2",
+            "index": 76,
+            "name": "Improved Ventilation Class 2",
+            "desc": "",
+            "categories": "firepower mobility stealth survivability",
+            "tags": "ventilation armor firepower camouflage reconnaissance mobility",
+            "icon": "improvedVentilation",
+            "price": 200000,
+            "weight": 150,
+            "factors": [
+                {
+                    "type": "crewLevel",
+                    "desc": "to crew efficiency bonus",
+                    "value": 1.05,
+                    "specValue": 1.06
+                }
+            ],
+            "include_tags": "improvedVentilation_class2_user"
+        },
+        {
+            "id": "improvedVentilation_tier1",
+            "index": 77,
+            "name": "Improved Ventilation Class 1",
+            "desc": "",
+            "categories": "firepower mobility stealth survivability",
+            "tags": "ventilation armor firepower camouflage reconnaissance mobility",
+            "icon": "improvedVentilation",
+            "price": 600000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "crewLevel",
+                    "desc": "to crew efficiency bonus",
+                    "value": 1.05,
+                    "specValue": 1.06
+                }
+            ],
+            "include_tags": "improvedVentilation_class1_user"
+        },
+        {
+            "id": "grousers_tier3",
+            "index": 78,
+            "name": "Additional Grousers Class 3",
+            "desc": "",
+            "categories": "mobility",
+            "tags": "grousers mobility",
+            "icon": "grousers",
+            "price": 50000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.15,
+                    "specValue": 1.2
+                },
+                {
+                    "type": "vehicleSpeedGain",
+                    "desc": "to maintaining speed when crossing all terrain types",
+                    "value": 1.1,
+                    "specValue": 1.15
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "exclude_tags": "wheeledVehicle",
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "grousers_tier2",
+            "index": 79,
+            "name": "Additional Grousers Class 2",
+            "desc": "",
+            "categories": "mobility",
+            "tags": "grousers mobility",
+            "icon": "grousers",
+            "price": 250000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.15,
+                    "specValue": 1.2
+                },
+                {
+                    "type": "vehicleSpeedGain",
+                    "desc": "to maintaining speed when crossing all terrain types",
+                    "value": 1.1,
+                    "specValue": 1.15
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "exclude_tags": "wheeledVehicle",
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "grousers_tier1",
+            "index": 80,
+            "name": "Additional Grousers Class 1",
+            "desc": "",
+            "categories": "mobility",
+            "tags": "grousers mobility",
+            "icon": "grousers",
+            "price": 500000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.15,
+                    "specValue": 1.2
+                },
+                {
+                    "type": "vehicleSpeedGain",
+                    "desc": "to maintaining speed when crossing all terrain types",
+                    "value": 1.1,
+                    "specValue": 1.15
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "exclude_tags": "wheeledVehicle",
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "tankRammer_tier2",
+            "index": 81,
+            "name": "Gun Rammer Class 2",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "rammer firepower",
+            "icon": "rammer",
+            "price": 300000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleGunReloadTime",
+                    "desc": "to reload time",
+                    "value": 0.9,
+                    "specValue": 0.885
+                }
+            ],
+            "include_tags": "tankRammer_class2_user"
+        },
+        {
+            "id": "tankRammer_tier1",
+            "index": 82,
+            "name": "Gun Rammer Class 1",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "rammer firepower",
+            "icon": "rammer",
+            "price": 600000,
+            "weight": 400,
+            "factors": [
+                {
+                    "type": "vehicleGunReloadTime",
+                    "desc": "to reload time",
+                    "value": 0.9,
+                    "specValue": 0.885
+                }
+            ],
+            "include_tags": "tankRammer_class1_user"
+        },
+        {
+            "id": "enhancedAimDrives_tier3",
+            "index": 83,
+            "name": "Enhanced Gun Laying Drive Class 3",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "enhancedAimDrives firepower",
+            "icon": "enhancedAimDrives",
+            "price": 50000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.1,
+                    "specValue": 1.115
+                }
+            ],
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "enhancedAimDrives_tier2",
+            "index": 84,
+            "name": "Enhanced Gun Laying Drive Class 2",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "enhancedAimDrives firepower",
+            "icon": "enhancedAimDrives",
+            "price": 200000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.1,
+                    "specValue": 1.115
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "enhancedAimDrives_tier1",
+            "index": 85,
+            "name": "Enhanced Gun Laying Drive Class 1",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "enhancedAimDrives firepower",
+            "icon": "enhancedAimDrives",
+            "price": 600000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.1,
+                    "specValue": 1.115
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "aimingStabilizer_tier2",
+            "index": 86,
+            "name": "Vertical Stabilizer Class 2",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "aimingStabilizer firepower",
+            "icon": "aimingStabilizer",
+            "price": 200000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.8,
+                    "specValue": 0.77
+                }
+            ],
+            "include_tags": "aimingStabilizer_class2_user"
+        },
+        {
+            "id": "aimingStabilizer_tier1",
+            "index": 87,
+            "name": "Vertical Stabilizer Class 1",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "aimingStabilizer firepower",
+            "icon": "aimingStabilizer",
+            "price": 600000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.8,
+                    "specValue": 0.77
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user"
+        },
+        {
+            "id": "additionalInvisibilityDevice_tier3",
+            "index": 88,
+            "name": "Low Noise Exhaust System Class 3",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "additInvisibilityDevice",
+            "icon": "additionalInvisibilityDevice",
+            "price": 50000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.06,
+                    "specValue": 1.08,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.05,
+                    "specValue": 1.06,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.03,
+                    "specValue": 1.04,
+                    "restriction": "heavyTank SPG"
+                }
+            ],
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "additionalInvisibilityDevice_tier2",
+            "index": 89,
+            "name": "Low Noise Exhaust System Class 2",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "additInvisibilityDevice",
+            "icon": "additionalInvisibilityDevice",
+            "price": 200000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.06,
+                    "specValue": 1.08,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.05,
+                    "specValue": 1.06,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.03,
+                    "specValue": 1.04,
+                    "restriction": "heavyTank SPG"
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "additionalInvisibilityDevice_tier1",
+            "index": 90,
+            "name": "Low Noise Exhaust System Class 1",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "additInvisibilityDevice",
+            "icon": "additionalInvisibilityDevice",
+            "price": 600000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.06,
+                    "specValue": 1.08,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.05,
+                    "specValue": 1.06,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.03,
+                    "specValue": 1.04,
+                    "restriction": "heavyTank SPG"
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "extraHealthReserve_tier3",
+            "index": 91,
+            "name": "Improved Hardening Class 3",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "healthReserve",
+            "icon": "extraHealthReserve",
+            "price": 40000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.08,
+                    "specValue": 1.1
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.5,
+                    "specValue": 1.65
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.15,
+                    "specValue": 1.2
+                },
+                {
+                    "type": "vehicleChassisFallDamage",
+                    "desc": "to damage by impact",
+                    "value": 0.5,
+                    "specValue": 0.35
+                }
+            ],
+            "include_tags": "extraHealthReserve_class3_user"
+        },
+        {
+            "id": "extraHealthReserve_tier2",
+            "index": 92,
+            "name": "Improved Hardening Class 2",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "healthReserve",
+            "icon": "extraHealthReserve",
+            "price": 200000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.08,
+                    "specValue": 1.1
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.5,
+                    "specValue": 1.65
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.15,
+                    "specValue": 1.2
+                },
+                {
+                    "type": "vehicleChassisFallDamage",
+                    "desc": "to damage by impact",
+                    "value": 0.5,
+                    "specValue": 0.35
+                }
+            ],
+            "include_tags": "extraHealthReserve_class2_user"
+        },
+        {
+            "id": "extraHealthReserve_tier1",
+            "index": 93,
+            "name": "Improved Hardening Class 1",
+            "desc": "",
+            "categories": "survivability",
+            "tags": "healthReserve",
+            "icon": "extraHealthReserve",
+            "price": 600000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.08,
+                    "specValue": 1.1
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.5,
+                    "specValue": 1.65
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.15,
+                    "specValue": 1.2
+                },
+                {
+                    "type": "vehicleChassisFallDamage",
+                    "desc": "to damage by impact",
+                    "value": 0.5,
+                    "specValue": 0.35
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user"
+        },
+        {
+            "id": "improvedRadioCommunication",
+            "index": 94,
+            "name": "Improved Radio Set",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "radioCommunication",
+            "icon": "improvedRadioCommunication",
+            "price": 600000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnemySpottingTime",
+                    "desc": "to duration an enemy vehicle\nis visible to you",
+                    "value": 1.5,
+                    "specValue": 2
+                },
+                {
+                    "type": "vehicleOwnSpottingTime",
+                    "desc": "to the duration your vehicle is visible",
+                    "value": -1.5,
+                    "specValue": -2
+                }
+            ],
+            "include_tags": "lightTank mediumTank",
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "improvedRotationMechanism_tier2",
+            "index": 95,
+            "name": "Improved Rotation Mechanism Class 2",
+            "desc": "",
+            "categories": "firepower mobility",
+            "tags": "rotationMechanism",
+            "icon": "improvedRotationMechanism",
+            "price": 200000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.1,
+                    "specValue": 1.125
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.1,
+                    "specValue": 1.125
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.9,
+                    "specValue": 0.875
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "improvedRotationMechanism_tier1",
+            "index": 96,
+            "name": "Improved Rotation Mechanism Class 1",
+            "desc": "",
+            "categories": "firepower mobility",
+            "tags": "rotationMechanism",
+            "icon": "improvedRotationMechanism",
+            "price": 600000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.1,
+                    "specValue": 1.125
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.1,
+                    "specValue": 1.125
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.9,
+                    "specValue": 0.875
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "turbocharger_tier3",
+            "index": 97,
+            "name": "Turbocharger Class 3",
+            "desc": "",
+            "categories": "mobility",
+            "tags": "turbocharger",
+            "icon": "turbocharger",
+            "price": 50000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.075,
+                    "specValue": 1.1
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 4,
+                    "specValue": 5
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 2,
+                    "specValue": 3
+                }
+            ],
+            "min_tier": 2,
+            "max_tier": 4
+        },
+        {
+            "id": "turbocharger_tier2",
+            "index": 98,
+            "name": "Turbocharger Class 2",
+            "desc": "",
+            "categories": "mobility",
+            "tags": "turbocharger",
+            "icon": "turbocharger",
+            "price": 200000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.075,
+                    "specValue": 1.1
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 4,
+                    "specValue": 5
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 2,
+                    "specValue": 3
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "turbocharger_tier1",
+            "index": 99,
+            "name": "Turbocharger Class 1",
+            "desc": "",
+            "categories": "mobility",
+            "tags": "turbocharger",
+            "icon": "turbocharger",
+            "price": 600000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.075,
+                    "specValue": 1.1
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 4,
+                    "specValue": 5
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 2,
+                    "specValue": 3
+                }
+            ],
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "commandersView",
+            "index": 100,
+            "name": "Commander's Vision System",
+            "desc": "",
+            "categories": "stealth",
+            "tags": "commandersView",
+            "icon": "commandersView",
+            "price": 600000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "demaskFoliageFactor",
+                    "desc": "to concealment of enemy vehicles behind foliage",
+                    "value": 0.85,
+                    "specValue": 0.8
+                },
+                {
+                    "type": "demaskMovingFactor",
+                    "desc": "to concealment of moving enemy vehicles",
+                    "value": 0.9,
+                    "specValue": 0.875
+                }
+            ],
+            "include_tags": "lightTank mediumTank",
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "improvedSights_tier2",
+            "index": 101,
+            "name": "Improved Aiming Class 2",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "improvedSights",
+            "icon": "improvedSights",
+            "price": 200000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.95,
+                    "specValue": 0.93
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 7
+        },
+        {
+            "id": "improvedSights_tier1",
+            "index": 102,
+            "name": "Improved Aiming Class 1",
+            "desc": "",
+            "categories": "firepower",
+            "tags": "improvedSights",
+            "icon": "improvedSights",
+            "price": 600000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.95,
+                    "specValue": 0.93
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 8,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyBasicImprovedConfiguration",
+            "index": 105,
+            "name": "Bounty Protection Technology",
+            "desc": "",
+            "tags": "improvedConfiguration armor trophyBasic",
+            "icon": "improvedConfiguration",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleRepairSpeed",
+                    "desc": "to repair speed",
+                    "value": 1.25
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 2
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.5
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.5
+                },
+                {
+                    "type": "vehicleFireChance",
+                    "desc": "to the chance of engine fire",
+                    "value": 0.5
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyUpgradedImprovedConfiguration",
+            "index": 106,
+            "name": "Bounty Protection Technology",
+            "desc": "",
+            "tags": "improvedConfiguration armor trophyUpgraded",
+            "icon": "improvedConfiguration",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleRepairSpeed",
+                    "desc": "to repair speed",
+                    "value": 1.4
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 2.5
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.3
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.3
+                },
+                {
+                    "type": "vehicleFireChance",
+                    "desc": "to the chance of engine fire",
+                    "value": 0.3
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyBasicImprovedRotationMechanism",
+            "index": 107,
+            "name": "Bounty Rotation Mechanism",
+            "desc": "",
+            "tags": "rotationMechanism trophyBasic",
+            "icon": "improvedRotationMechanism",
+            "price": 100000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.1
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.1
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.9
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyUpgradedImprovedRotationMechanism",
+            "index": 108,
+            "name": "Bounty Rotation Mechanism",
+            "desc": "",
+            "tags": "rotationMechanism trophyUpgraded",
+            "icon": "improvedRotationMechanism",
+            "price": 100000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.15
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.15
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.85
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyBasicImprovedSights",
+            "index": 109,
+            "name": "Bounty Aiming",
+            "desc": "",
+            "tags": "improvedSights trophyBasic firepower",
+            "icon": "improvedSights",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.95
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyUpgradedImprovedSights",
+            "index": 110,
+            "name": "Bounty Aiming",
+            "desc": "",
+            "tags": "improvedSights trophyUpgraded firepower",
+            "icon": "improvedSights",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.92
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "deluxeTurbocharger",
+            "index": 111,
+            "name": "Improved Compressor",
+            "desc": "",
+            "tags": "turbocharger deluxe",
+            "icon": "turbocharger",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.125
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 6
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 4
+                }
+            ],
+            "min_tier": 2
+        },
+        {
+            "id": "deluxeExtraHealthReserve",
+            "index": 112,
+            "name": "Increased Shell Resistance",
+            "desc": "",
+            "tags": "healthReserve deluxe",
+            "icon": "extraHealthReserve",
+            "price": 0,
+            "crystal_price": 6000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.125
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.75
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.3
+                },
+                {
+                    "type": "vehicleChassisFallDamage",
+                    "desc": "to damage by impact",
+                    "value": 0.25
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user extraHealthReserve_class2_user extraHealthReserve_class3_user"
+        },
+        {
+            "id": "trophyBasicAdditionalInvisibilityDevice",
+            "index": 113,
+            "name": "Bounty Exhaust System",
+            "desc": "",
+            "tags": "additInvisibilityDevice trophyBasic",
+            "icon": "additionalInvisibilityDevice",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.06,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.05,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.03,
+                    "restriction": "heavyTank SPG"
+                }
+            ]
+        },
+        {
+            "id": "trophyUpgradedAdditionalInvisibilityDevice",
+            "index": 114,
+            "name": "Bounty Exhaust System",
+            "desc": "",
+            "tags": "additInvisibilityDevice trophyUpgraded",
+            "icon": "additionalInvisibilityDevice",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.09,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.07,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.05,
+                    "restriction": "heavyTank SPG"
+                }
+            ]
+        },
+        {
+            "id": "trophyBasicTurbocharger",
+            "index": 115,
+            "name": "Bounty Turbocharger",
+            "desc": "",
+            "tags": "turbocharger trophyBasic",
+            "icon": "turbocharger",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.075
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 4
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "id": "trophyUpgradedTurbocharger",
+            "index": 116,
+            "name": "Bounty Turbocharger",
+            "desc": "",
+            "tags": "turbocharger trophyUpgraded",
+            "icon": "turbocharger",
+            "price": 100000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.12
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 5
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 3
+                }
+            ]
+        },
+        {
+            "id": "deluxeImprovedRotationMechanism",
+            "index": 117,
+            "name": "Improved Final Drive",
+            "desc": "",
+            "tags": "rotationMechanism deluxe",
+            "icon": "improvedRotationMechanism",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 200,
+            "factors": [
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.175
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.175
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.825
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "trophyBasicExtraHealthReserve",
+            "index": 118,
+            "name": "Bounty Hardening",
+            "desc": "",
+            "tags": "healthReserve trophyBasic",
+            "icon": "extraHealthReserve",
+            "price": 100000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.08
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.5
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.15
+                },
+                {
+                    "type": "vehicleChassisFallDamage",
+                    "desc": "to damage by impact",
+                    "value": 0.5
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user extraHealthReserve_class2_user extraHealthReserve_class3_user"
+        },
+        {
+            "id": "trophyUpgradedExtraHealthReserve",
+            "index": 119,
+            "name": "Bounty Hardening",
+            "desc": "",
+            "tags": "healthReserve trophyUpgraded",
+            "icon": "extraHealthReserve",
+            "price": 100000,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.11
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.7
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.25
+                },
+                {
+                    "type": "vehicleChassisFallDamage",
+                    "desc": "to damage by impact",
+                    "value": 0.3
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user extraHealthReserve_class2_user extraHealthReserve_class3_user"
+        },
+        {
+            "id": "deluxeImprovedSights",
+            "index": 120,
+            "name": "Innovative Targeting",
+            "desc": "",
+            "tags": "improvedSights deluxe",
+            "icon": "improvedSights",
+            "price": 0,
+            "crystal_price": 5000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.91
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "deluxeAdditionalInvisibilityDevice",
+            "index": 121,
+            "name": "Stealth Exhaust Unit",
+            "desc": "",
+            "tags": "additInvisibilityDevice deluxe",
+            "icon": "additionalInvisibilityDevice",
+            "price": 0,
+            "crystal_price": 6000,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.1,
+                    "restriction": "lightTank mediumTank"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.08,
+                    "restriction": "AT-SPG"
+                },
+                {
+                    "type": "vehicleCamouflage",
+                    "desc": "to concealment",
+                    "value": 1.06,
+                    "restriction": "heavyTank SPG"
+                }
+            ]
+        },
+        {
+            "id": "modernizedAimDrivesAimingStabilizer1",
+            "index": 150,
+            "name": "Fire-Control System T1",
+            "desc": "",
+            "tags": "enhancedAimDrives firepower modernized_1",
+            "icon": "modernizedAimDrivesAimingStabilizer",
+            "price": 100,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.06
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.93
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user"
+        },
+        {
+            "id": "modernizedAimDrivesAimingStabilizer2",
+            "index": 151,
+            "name": "Fire-Control System T2",
+            "desc": "",
+            "tags": "enhancedAimDrives firepower modernized_2",
+            "icon": "modernizedAimDrivesAimingStabilizer",
+            "price": 400,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.07
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.91
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user"
+        },
+        {
+            "id": "modernizedAimDrivesAimingStabilizer3",
+            "index": 152,
+            "name": "Fire-Control System T3",
+            "desc": "",
+            "tags": "enhancedAimDrives firepower modernized_3",
+            "icon": "modernizedAimDrivesAimingStabilizer",
+            "price": 1600,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.09
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.89
+                }
+            ],
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user"
+        },
+        {
+            "id": "modernizedTurbochargerRotationMechanism1",
+            "index": 153,
+            "name": "Mobility Improvement System T1",
+            "desc": "",
+            "tags": "turbocharger modernized_1",
+            "icon": "modernizedTurbochargerRotationMechanism",
+            "price": 100,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.05
+                },
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.04
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.04
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.96
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 4
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 2
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedTurbochargerRotationMechanism2",
+            "index": 154,
+            "name": "Mobility Improvement System T2",
+            "desc": "",
+            "tags": "turbocharger modernized_2",
+            "icon": "modernizedTurbochargerRotationMechanism",
+            "price": 400,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.06
+                },
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.05
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.05
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.95
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 4
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 3
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedTurbochargerRotationMechanism3",
+            "index": 155,
+            "name": "Mobility Improvement System T3",
+            "desc": "",
+            "tags": "turbocharger modernized_3",
+            "icon": "modernizedTurbochargerRotationMechanism",
+            "price": 1600,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleEnginePower",
+                    "desc": "to engine power",
+                    "value": 1.08
+                },
+                {
+                    "type": "vehicleTurretOrCuttingRotationSpeed",
+                    "desc": "to turret traverse speed or gun traverse speed for vehicles with stationary cabins",
+                    "value": 1.06
+                },
+                {
+                    "type": "vehicleAllGroundRotationSpeed",
+                    "desc": "to hull traverse speed",
+                    "value": 1.06
+                },
+                {
+                    "type": "vehicleGunShotDispersion",
+                    "desc": "to dispersion during vehicle movement and traverse",
+                    "value": 0.94
+                },
+                {
+                    "type": "vehicleForwardMaxSpeed",
+                    "desc": "to top forward speed",
+                    "value": 5
+                },
+                {
+                    "type": "vehicleBackwardMaxSpeed",
+                    "desc": "to top reverse speed",
+                    "value": 3
+                }
+            ],
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedExtraHealthReserveAntifragmentationLining1",
+            "index": 156,
+            "name": "Survival Improvement Suite T1",
+            "desc": "",
+            "tags": "healthReserve modernized_1",
+            "icon": "modernizedExtraHealthReserveAntifragmentationLining",
+            "price": 100,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.06
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 1.5
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.3
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.1
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.7
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.7
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user extraHealthReserve_class2_user extraHealthReserve_class3_user",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedExtraHealthReserveAntifragmentationLining2",
+            "index": 157,
+            "name": "Survival Improvement Suite T2",
+            "desc": "",
+            "tags": "healthReserve modernized_2",
+            "icon": "modernizedExtraHealthReserveAntifragmentationLining",
+            "price": 400,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.07
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 1.7
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.4
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.15
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.6
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.6
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user extraHealthReserve_class2_user extraHealthReserve_class3_user",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedExtraHealthReserveAntifragmentationLining3",
+            "index": 158,
+            "name": "Survival Improvement Suite T3",
+            "desc": "",
+            "tags": "healthReserve modernized_3",
+            "icon": "modernizedExtraHealthReserveAntifragmentationLining",
+            "price": 1600,
+            "weight": 0,
+            "factors": [
+                {
+                    "type": "vehicleStrength",
+                    "desc": "to vehicle hit points",
+                    "value": 1.09
+                },
+                {
+                    "type": "vehicleAmmoBayEngineFuelStrength",
+                    "desc": "to internal module durability",
+                    "value": 2
+                },
+                {
+                    "type": "vehicleChassisStrength",
+                    "desc": "to suspension durability",
+                    "value": 1.5
+                },
+                {
+                    "type": "vehicleChassisRepairSpeed",
+                    "desc": "to suspension repair speed",
+                    "value": 1.2
+                },
+                {
+                    "type": "vehPenaltyForDamagedEngine",
+                    "desc": "to the damaged engine penalty",
+                    "value": 0.5
+                },
+                {
+                    "type": "vehPenaltyForDamagedAmmorack",
+                    "desc": "to the loading speed penalty",
+                    "value": 0.5
+                }
+            ],
+            "include_tags": "extraHealthReserve_class1_user extraHealthReserve_class2_user extraHealthReserve_class3_user",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedImprovedSightsEnhancedAimDrives1",
+            "index": 159,
+            "name": "Accuracy Improvement System T1",
+            "desc": "",
+            "tags": "improvedSights firepower modernized_1",
+            "icon": "modernizedImprovedSightsEnhancedAimDrives",
+            "price": 100,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.95
+                },
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.03
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedImprovedSightsEnhancedAimDrives2",
+            "index": 160,
+            "name": "Accuracy Improvement System T2",
+            "desc": "",
+            "tags": "improvedSights firepower modernized_2",
+            "icon": "modernizedImprovedSightsEnhancedAimDrives",
+            "price": 400,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.94
+                },
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.04
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 11
+        },
+        {
+            "id": "modernizedImprovedSightsEnhancedAimDrives3",
+            "index": 161,
+            "name": "Accuracy Improvement System T3",
+            "desc": "",
+            "tags": "improvedSights firepower modernized_3",
+            "icon": "modernizedImprovedSightsEnhancedAimDrives",
+            "price": 1600,
+            "weight": 100,
+            "factors": [
+                {
+                    "type": "vehicleGunShotFullDispersion",
+                    "desc": "to the aiming circle size",
+                    "value": 0.93
+                },
+                {
+                    "type": "vehicleGunAimSpeed",
+                    "desc": "to aiming speed",
+                    "value": 1.05
+                }
+            ],
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "min_tier": 5,
+            "max_tier": 11
+        }
+    ],
+    "consumables": [
+        {
+            "id": "handExtinguishers",
+            "index": 0,
+            "name": "Manual Fire Extinguisher",
+            "description": "Fire extinguishing in your vehicle.",
+            "icon": "handExtinguishers",
+            "price": 3000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Extinguisher",
+            "tags": "extinguisher",
+            "incompatible_tags": ""
+        },
+        {
+            "id": "autoExtinguishers",
+            "index": 1,
+            "name": "Automatic Fire Extinguisher",
+            "description": "Automatic fire extinguishing in your vehicle.",
+            "icon": "autoExtinguishers",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Extinguisher",
+            "fire_factor": 0.9,
+            "tags": "extinguisher premium_equipment",
+            "incompatible_tags": "",
+            "kpi_value": 0.9
+        },
+        {
+            "id": "smallMedkit",
+            "index": 2,
+            "name": "Small First Aid Kit",
+            "description": "Treatment of all injured crew members and removing the stun effect.",
+            "icon": "smallMedkit",
+            "price": 3000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Repairkit",
+            "tags": "medkit",
+            "incompatible_tags": ""
+        },
+        {
+            "id": "largeMedkit",
+            "index": 3,
+            "name": "Large First Aid Kit",
+            "description": "Treatment of all injured crew members and removing the stun effect.",
+            "icon": "largeMedkit",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Repairkit",
+            "bonus_value": 0.3,
+            "tags": "medkit premium_equipment",
+            "incompatible_tags": "",
+            "kpi_value": 1.15
+        },
+        {
+            "id": "smallRepairkit",
+            "index": 4,
+            "name": "Small Repair Kit",
+            "description": "Repair of all damaged modules.",
+            "icon": "smallRepairkit",
+            "price": 3000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Repairkit",
+            "tags": "repairkit",
+            "incompatible_tags": ""
+        },
+        {
+            "id": "largeRepairkit",
+            "index": 5,
+            "name": "Large Repair Kit",
+            "description": "Repair of all damaged modules.",
+            "icon": "largeRepairkit",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Repairkit",
+            "bonus_value": 0.1,
+            "tags": "repairkit premium_equipment",
+            "incompatible_tags": "",
+            "exclude_tags": "builtinRepairkit_user",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "chocolate",
+            "index": 9,
+            "name": "Chocolate",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "chocolate",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "germany",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration",
+            "index": 11,
+            "name": "Extra Combat Rations",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "ussr",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "removedRpmLimiter",
+            "index": 12,
+            "name": "Removed Speed Governor",
+            "description": "{colorTagOpen}+10%{colorTagClose} to engine power, but damages the engine.",
+            "icon": "removedRpmLimiter",
+            "price": 3000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "RemovedRpmLimiter",
+            "power_factor": 1.1,
+            "tags": "notForSale trigger",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "include_nations": "ussr china",
+            "include_tags": "removedRpmLimiter_user",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "hotCoffee",
+            "index": 13,
+            "name": "Strong Coffee",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "hotCoffee",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "france",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_china",
+            "index": 15,
+            "name": "Improved Combat Rations",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_china",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "china",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_uk",
+            "index": 17,
+            "name": "Pudding and Tea",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_uk",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "uk",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_japan",
+            "index": 18,
+            "name": "Onigiri",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_japan",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "japan",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_czech",
+            "index": 61,
+            "name": "Buchty",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_czech",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "czech",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_sweden",
+            "index": 62,
+            "name": "Coffee with Cinnamon Buns",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_sweden",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "sweden",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_poland",
+            "index": 63,
+            "name": "Bread with Smalec",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_poland",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "poland",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "ration_italy",
+            "index": 64,
+            "name": "Spaghetti with Meat Sauce",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "ration_italy",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "italy",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "qualityFuel",
+            "index": 65,
+            "name": "Quality Fuel",
+            "description": "{colorTagOpen}+5%{colorTagClose} to engine power and turret traverse speed.",
+            "icon": "qualityFuel",
+            "price": 5000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Fuel",
+            "power_factor": 1.05,
+            "turret_rotation_factor": 1.05,
+            "tags": "fuel",
+            "incompatible_tags": "fuel",
+            "kpi_value": 1.05
+        },
+        {
+            "id": "excellentFuel",
+            "index": 66,
+            "name": "Excellent Fuel",
+            "description": "{colorTagOpen}+10%{colorTagClose} to engine power and turret traverse speed.",
+            "icon": "excellentFuel",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Fuel",
+            "power_factor": 1.1,
+            "turret_rotation_factor": 1.1,
+            "tags": "fuel premium_equipment",
+            "incompatible_tags": "fuel",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "cocacola",
+            "index": 100,
+            "name": "Case of Cola",
+            "description": "{colorTagOpen}+10%{colorTagClose} to crew efficiency bonus.",
+            "icon": "cocacola",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Stimulator",
+            "crew_skill": 10,
+            "tags": "stimulator premium_equipment",
+            "incompatible_tags": "",
+            "include_nations": "usa",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "improvedConfigurationBattleBooster",
+            "index": 103,
+            "name": "Pre-Battle Maintenance",
+            "description": "%s to repair speed with Modified Configuration (any class), Improved Configuration, or Bounty Protection Technology mounted.",
+            "icon": "improvedConfiguration",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 6,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster armor",
+            "incompatible_tags": "",
+            "min_tier": 5,
+            "levels": "[{\"attribute\":\"repairSpeed\",\"factor\":\"1.1\",\"incompatible\":\"deluxe\",\"required\":\"improvedConfiguration\"},{\"attribute\":\"repairSpeed\",\"factor\":\"1.1\",\"required\":\"improvedConfiguration deluxe\"}]",
+            "kpi_value": 1.1
+        },
+        {
+            "id": "improvedVentilationBattleBooster",
+            "index": 104,
+            "name": "Vent Purge",
+            "description": "%s to crew efficiency bonus with Improved Ventilation (any class), Venting System, or Bounty Ventilation mounted.",
+            "icon": "improvedVentilation",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 12,
+            "effect_type": "AdditiveBattleBooster",
+            "tags": "notForSale equipmentBattleBooster armor firepower camouflage reconnaissance mobility",
+            "incompatible_tags": "",
+            "include_tags": "improvedVentilation_class1_user improvedVentilation_class2_user improvedVentilation_class3_user",
+            "levels": "[{\"attribute\":\"crewLevelIncrease\",\"incompatible\":\"deluxe\",\"required\":\"ventilation\",\"value\":\"2.5\"},{\"attribute\":\"crewLevelIncrease\",\"required\":\"ventilation deluxe\",\"value\":\"2.5\"}]",
+            "kpi_value": 1.025
+        },
+        {
+            "id": "rammerBattleBooster",
+            "index": 105,
+            "name": "Orderly Ammo Rack",
+            "description": "%s to loading time with Rammer (any gun type and caliber), Innovative Loading System, or Bounty Rammer mounted.",
+            "icon": "rammer",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 12,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster firepower",
+            "incompatible_tags": "",
+            "include_tags": "tankRammer_class1_user tankRammer_class2_user",
+            "levels": "[{\"attribute\":\"gun/reloadTime\",\"factor\":\"0.972\",\"incompatible\":\"deluxe trophyUpgraded\",\"required\":\"rammer\"},{\"attribute\":\"gun/reloadTime\",\"factor\":\"0.971\",\"required\":\"rammer deluxe\"},{\"attribute\":\"gun/reloadTime\",\"factor\":\"0.971\",\"required\":\"rammer trophyUpgraded\"}]",
+            "kpi_value": 0.975
+        },
+        {
+            "id": "coatedOpticsBattleBooster",
+            "index": 106,
+            "name": "Optical Calibration",
+            "description": "%s to view range (up to 445 m) with Coated Optics (any class), Experimental Optics, or Bounty Optics mounted.",
+            "icon": "coatedOptics",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 8,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster reconnaissance",
+            "incompatible_tags": "",
+            "levels": "[{\"attribute\":\"circularVisionRadius\",\"factor\":\"1.023\",\"incompatible\":\"deluxe\",\"required\":\"coatedOptics\"},{\"attribute\":\"circularVisionRadius\",\"factor\":\"1.023\",\"required\":\"coatedOptics deluxe\"}]",
+            "kpi_value": 1.025
+        },
+        {
+            "id": "aimingStabilizerBattleBooster",
+            "index": 107,
+            "name": "Stabilizer Greasing",
+            "description": "%s to dispersion after firing, during movement and turret rotation with Vertical Stabilizer, Stabilizing Equipment System, or Bounty Stabilizer mounted.",
+            "icon": "aimingStabilizer",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 10,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster firepower",
+            "incompatible_tags": "",
+            "include_tags": "aimingStabilizer_class1_user aimingStabilizer_class2_user",
+            "levels": "[{\"attribute\":\"additiveShotDispersionFactor\",\"factor\":\"0.938\",\"incompatible\":\"deluxe\",\"required\":\"aimingStabilizer\"},{\"attribute\":\"additiveShotDispersionFactor\",\"factor\":\"0.933\",\"required\":\"aimingStabilizer deluxe\"}]",
+            "kpi_value": 0.95
+        },
+        {
+            "id": "enhancedAimDrivesBattleBooster",
+            "index": 108,
+            "name": "Aim Tuning",
+            "description": "%s to aiming speed with Enhanced Gun Laying Drive (any class), Wear-Resistant Gun Laying Drive, Bounty Gun Laying Drive, or Fire-Control System mounted.",
+            "icon": "enhancedAimDrives",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 10,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster firepower",
+            "incompatible_tags": "",
+            "levels": "[{\"attribute\":\"gun/aimingTime\",\"factor\":\"0.978\",\"incompatible\":\"deluxe trophyUpgraded\",\"required\":\"enhancedAimDrives\"},{\"attribute\":\"gun/aimingTime\",\"factor\":\"0.98\",\"required\":\"enhancedAimDrives deluxe\"},{\"attribute\":\"gun/aimingTime\",\"factor\":\"0.98\",\"required\":\"enhancedAimDrives trophyUpgraded\"}]",
+            "kpi_value": 1.025
+        },
+        {
+            "id": "camouflageBattleBooster",
+            "index": 109,
+            "name": "Natural Cover",
+            "description": "crewBattleBooster/descr",
+            "icon": "naturalCover",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "FactorSkillBattleBooster",
+            "tags": "notForSale crewSkillBattleBooster camouflage",
+            "incompatible_tags": "",
+            "skill_name": "camouflage",
+            "efficiency_factor": 1.1
+        },
+        {
+            "id": "smoothTurretBattleBooster",
+            "index": 110,
+            "name": "Steady Hand",
+            "description": "crewBattleBooster/descr",
+            "icon": "gunner_smoothTurret",
+            "price": 10000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster firepower",
+            "incompatible_tags": "",
+            "skill_name": "gunner_smoothTurret",
+            "perk_level_multiplier": 2
+        },
+        {
+            "id": "virtuosoBattleBooster",
+            "index": 111,
+            "name": "Combat Course",
+            "description": "crewBattleBooster/descr",
+            "icon": "driver_virtuoso",
+            "price": 10000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster mobility",
+            "incompatible_tags": "",
+            "skill_name": "driver_virtuoso",
+            "perk_level_multiplier": 2
+        },
+        {
+            "id": "smoothDrivingBattleBooster",
+            "index": 112,
+            "name": "Gearbox Intricacy",
+            "description": "crewBattleBooster/descr",
+            "icon": "driver_smoothDriving",
+            "price": 10000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster firepower",
+            "incompatible_tags": "",
+            "skill_name": "driver_smoothDriving",
+            "perk_level_multiplier": 2
+        },
+        {
+            "id": "fireFightingBattleBooster",
+            "index": 113,
+            "name": "Experienced Firefighter",
+            "description": "crewBattleBooster/descr",
+            "icon": "fireFighting",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster armor",
+            "incompatible_tags": "",
+            "skill_name": "fireFighting",
+            "efficiency_factor": 1.5,
+            "perk_level_multiplier": 1.5
+        },
+        {
+            "id": "sixthSenseBattleBooster",
+            "index": 114,
+            "name": "Increased Focus",
+            "description": "crewBattleBooster/descr",
+            "icon": "commander_sixthSense",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SixthSenseBattleBooster",
+            "tags": "notForSale crewSkillBattleBooster armor notBuyWhenAutoEquip hideIfNotInShop builtinPerkBooster",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "skill_name": "commander_sixthSense"
+        },
+        {
+            "id": "rancorousBattleBooster",
+            "index": 115,
+            "name": "Focus on Target",
+            "description": "crewBattleBooster/descr",
+            "icon": "gunner_rancorous",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster reconnaissance",
+            "incompatible_tags": "",
+            "skill_name": "gunner_rancorous",
+            "perk_level_multiplier": 2
+        },
+        {
+            "id": "pedantBattleBooster",
+            "index": 116,
+            "name": "Shell Organizer",
+            "description": "crewBattleBooster/descr",
+            "icon": "loader_pedant",
+            "price": 10000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster armor",
+            "incompatible_tags": "",
+            "skill_name": "loader_pedant",
+            "perk_level_multiplier": 3
+        },
+        {
+            "id": "lastEffortBattleBooster",
+            "index": 117,
+            "name": "Duty Comes First",
+            "description": "crewBattleBooster/descr",
+            "icon": "radioman_lastEffort",
+            "price": 10000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "LastEffortBattleBooster",
+            "tags": "notForSale crewSkillBattleBooster notBuyWhenAutoEquip hideIfNotInShop reconnaissance",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "skill_name": "radioman_lastEffort",
+            "perk_level_multiplier": 1.5
+        },
+        {
+            "id": "builtinRepairkit",
+            "index": 180,
+            "name": "Standard Large Repair Kit",
+            "description": "Repair of all damaged modules.",
+            "icon": "largeRepairkit",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "Repairkit",
+            "bonus_value": 0.15,
+            "tags": "repairkit premium_equipment builtin notForSale",
+            "incompatible_tags": "",
+            "include_tags": "builtinRepairkit_user",
+            "kpi_value": 1.15
+        },
+        {
+            "id": "turbochargerBattleBooster",
+            "index": 202,
+            "name": "Fuel Filter Replacement",
+            "description": "%s to engine power with Turbocharger (any class), Bounty Turbocharger, Improved Compressor, or Mobility Improvement System mounted.",
+            "icon": "turbocharger",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 12,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster turbocharger notBuyWhenAutoEquip",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "levels": "[{\"attribute\":\"engine/power\",\"factor\":\"1.037\",\"incompatible\":\"deluxe trophyUpgraded\",\"required\":\"turbocharger\"},{\"attribute\":\"engine/power\",\"factor\":\"1.036\",\"required\":\"turbocharger deluxe\"},{\"attribute\":\"engine/power\",\"factor\":\"1.036\",\"required\":\"turbocharger trophyUpgraded\"}]",
+            "kpi_value": 1.04
+        },
+        {
+            "id": "improvedSightsBattleBooster",
+            "index": 203,
+            "name": "Polished Lens",
+            "description": "%s to the aiming circle size with Improved Aiming (any class), Bounty Aiming, or Accuracy Improvement System mounted.",
+            "icon": "improvedSights",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 10,
+            "effect_type": "FactorBattleBooster",
+            "tags": "notForSale equipmentBattleBooster improvedSights notBuyWhenAutoEquip",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "include_tags": "lightTank mediumTank heavyTank AT-SPG",
+            "levels": "[{\"attribute\":\"multShotDispersionFactor\",\"factor\":\"0.979\",\"incompatible\":\"deluxe trophyUpgraded\",\"required\":\"improvedSights\"},{\"attribute\":\"multShotDispersionFactor\",\"factor\":\"0.978\",\"required\":\"improvedSights trophyUpgraded\"},{\"attribute\":\"multShotDispersionFactor\",\"factor\":\"0.978\",\"required\":\"improvedSights deluxe\"}]",
+            "kpi_value": 0.98
+        },
+        {
+            "id": "additInvisibilityDeviceBattleBooster",
+            "index": 204,
+            "name": "Exhaust Insulation",
+            "description": "%s to concealment of a stationary or moving vehicle with Low Noise Exhaust System (any class) or Bounty Exhaust System mounted.",
+            "icon": "additionalInvisibilityDevice",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 10,
+            "effect_type": "InvisibilityBattleBooster",
+            "tags": "notForSale equipmentBattleBooster additInvisibilityDevice notBuyWhenAutoEquip",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "levels": "[{\"attribute\":\"invisibility\",\"factors\":\"0.02 1.0\",\"required\":\"additInvisibilityDevice\"}]",
+            "kpi_value": 1.02
+        },
+        {
+            "id": "practicalityBattleBooster",
+            "index": 205,
+            "name": "Thorough Preparations",
+            "description": "crewBattleBooster/descr",
+            "icon": "commander_practical",
+            "price": 20000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster armor",
+            "incompatible_tags": "",
+            "skill_name": "commander_practical",
+            "perk_level_multiplier": 2
+        },
+        {
+            "id": "enemyShotPredictorBattleBooster",
+            "index": 206,
+            "name": "Heightened Vigilance",
+            "description": "crewBattleBooster/descr",
+            "icon": "commander_enemyShotPredictor",
+            "price": 10000,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "SkillEquipment",
+            "tags": "notForSale crewSkillBattleBooster armor",
+            "incompatible_tags": "",
+            "skill_name": "commander_enemyShotPredictor",
+            "perk_level_multiplier": 1.5
+        },
+        {
+            "id": "poi_artillery_aoe",
+            "index": 9401,
+            "name": "Artillery Strike",
+            "description": "Within {colorTagOpen}%(delay)d s{colorTagClose}, the selected area will be attacked with Artillery Strike. Any targets damaged within a radius of {colorTagOpen}%(radius)d m{colorTagClose} will receive {colorTagOpen}%(damage)d{colorTagClose} HP of damage and will be stunned for {colorTagOpen}%(stunDuration)d s{colorTagClose}.",
+            "icon": "poi_artillery",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "PoiArtilleryEquipment",
+            "tags": "notForSale poiEquipment",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "duration": 1
+        },
+        {
+            "id": "poi_radar",
+            "index": 9402,
+            "name": "Divisional Radar",
+            "description": "When activated, all enemy vehicles will remain spotted for {colorTagOpen}%(duration)d s{colorTagClose}.",
+            "icon": "poi_radar",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "PoiRadarEquipment",
+            "tags": "notForSale poiEquipment",
+            "incompatible_tags": "",
+            "not_in_shop": true,
+            "duration": 3
+        },
+        {
+            "id": "comp7_aoe_heal",
+            "index": 9501,
+            "name": "Field Repairs",
+            "description": "",
+            "icon": "comp7_aoe_heal",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7AoeHealEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 5
+        },
+        {
+            "id": "comp7_ally_support",
+            "index": 9502,
+            "name": "One for All",
+            "description": "",
+            "icon": "comp7_ally_support",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7AllySupportEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 20
+        },
+        {
+            "id": "comp7_hunter",
+            "index": 9503,
+            "name": "Bounty Hunter",
+            "description": "",
+            "icon": "comp7_hunter",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7AllyHunterEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 5
+        },
+        {
+            "id": "comp7_concentration",
+            "index": 9504,
+            "name": "Focus on the Target",
+            "description": "",
+            "icon": "comp7_concentration",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7ConcentrationEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 12
+        },
+        {
+            "id": "comp7_berserk",
+            "index": 9505,
+            "name": "Fury",
+            "description": "",
+            "icon": "comp7_berserk",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7BerserkEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 12
+        },
+        {
+            "id": "comp7_aoe_inspire",
+            "index": 9506,
+            "name": "Inspire",
+            "description": "",
+            "icon": "comp7_aoe_inspire",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7AoeInspireEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 20
+        },
+        {
+            "id": "comp7_redline",
+            "index": 9507,
+            "name": "Fire Cover",
+            "description": "",
+            "icon": "comp7_redline",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7RedlineEquipment",
+            "tags": "notForSale roleEquipment pointAbility",
+            "incompatible_tags": "",
+            "duration": 1
+        },
+        {
+            "id": "comp7_fast_recharge",
+            "index": 9508,
+            "name": "Sleight of Hand",
+            "description": "",
+            "icon": "comp7_fast_recharge",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7FastRechargeEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": ""
+        },
+        {
+            "id": "comp7_juggernaut",
+            "index": 9509,
+            "name": "Juggernaut",
+            "description": "",
+            "icon": "comp7_juggernaut",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7JuggernautEquipment",
+            "power_factor": 1.35,
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 12
+        },
+        {
+            "id": "comp7_sure_shot",
+            "index": 9510,
+            "name": "Clean Shot",
+            "description": "",
+            "icon": "comp7_sure_shot",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7SureShotEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 20
+        },
+        {
+            "id": "comp7_sniper",
+            "index": 9511,
+            "name": "Bullseye",
+            "description": "",
+            "icon": "comp7_sniper",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7SniperEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 10
+        },
+        {
+            "id": "comp7_risky_attack",
+            "index": 9512,
+            "name": "Second Wind",
+            "description": "",
+            "icon": "comp7_risky_attack",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7RiskyAttackEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 7
+        },
+        {
+            "id": "comp7_recon",
+            "index": 9513,
+            "name": "Recon Flight",
+            "description": "",
+            "icon": "comp7_recon",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7ReconEquipment",
+            "tags": "notForSale roleEquipment pointAbility",
+            "incompatible_tags": "",
+            "duration": 7
+        },
+        {
+            "id": "comp7_aggressive_detection",
+            "index": 9514,
+            "name": "Active Recon",
+            "description": "",
+            "icon": "comp7_aggressive_detection",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7AggressiveDetectionEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 15
+        },
+        {
+            "id": "comp7_march",
+            "index": 9515,
+            "name": "Forced March",
+            "description": "",
+            "icon": "comp7_march",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_common.items.comp7_artefacts.Comp7MarchEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 10
+        },
+        {
+            "id": "comp7_light_aoe_heal",
+            "index": 9521,
+            "name": "Field Repairs",
+            "description": "",
+            "icon": "comp7_light_aoe_heal",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightAoeHealEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 5
+        },
+        {
+            "id": "comp7_light_ally_support",
+            "index": 9522,
+            "name": "One for All",
+            "description": "",
+            "icon": "comp7_light_ally_support",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightAllySupportEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 20
+        },
+        {
+            "id": "comp7_light_hunter",
+            "index": 9523,
+            "name": "Bounty Hunter",
+            "description": "",
+            "icon": "comp7_light_hunter",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightAllyHunterEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 5
+        },
+        {
+            "id": "comp7_light_concentration",
+            "index": 9524,
+            "name": "Focus on the Target",
+            "description": "",
+            "icon": "comp7_light_concentration",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightConcentrationEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 12
+        },
+        {
+            "id": "comp7_light_berserk",
+            "index": 9525,
+            "name": "Fury",
+            "description": "",
+            "icon": "comp7_light_berserk",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightBerserkEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 12
+        },
+        {
+            "id": "comp7_light_aoe_inspire",
+            "index": 9526,
+            "name": "Inspire",
+            "description": "",
+            "icon": "comp7_light_aoe_inspire",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightAoeInspireEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 20
+        },
+        {
+            "id": "comp7_light_redline",
+            "index": 9527,
+            "name": "Fire Cover",
+            "description": "",
+            "icon": "comp7_light_redline",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightRedlineEquipment",
+            "tags": "notForSale roleEquipment pointAbility",
+            "incompatible_tags": "",
+            "duration": 1
+        },
+        {
+            "id": "comp7_light_fast_recharge",
+            "index": 9528,
+            "name": "Sleight of Hand",
+            "description": "",
+            "icon": "comp7_light_fast_recharge",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightFastRechargeEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": ""
+        },
+        {
+            "id": "comp7_light_juggernaut",
+            "index": 9529,
+            "name": "Juggernaut",
+            "description": "",
+            "icon": "comp7_light_juggernaut",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightJuggernautEquipment",
+            "power_factor": 1.35,
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 12
+        },
+        {
+            "id": "comp7_light_sure_shot",
+            "index": 9530,
+            "name": "Clean Shot",
+            "description": "",
+            "icon": "comp7_light_sure_shot",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightSureShotEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 20
+        },
+        {
+            "id": "comp7_light_sniper",
+            "index": 9531,
+            "name": "Bullseye",
+            "description": "",
+            "icon": "comp7_light_sniper",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightSniperEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 10
+        },
+        {
+            "id": "comp7_light_risky_attack",
+            "index": 9532,
+            "name": "Second Wind",
+            "description": "",
+            "icon": "comp7_light_risky_attack",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightRiskyAttackEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 7
+        },
+        {
+            "id": "comp7_light_recon",
+            "index": 9533,
+            "name": "Recon Flight",
+            "description": "",
+            "icon": "comp7_light_recon",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightReconEquipment",
+            "tags": "notForSale roleEquipment pointAbility",
+            "incompatible_tags": "",
+            "duration": 7
+        },
+        {
+            "id": "comp7_light_aggressive_detection",
+            "index": 9534,
+            "name": "Active Recon",
+            "description": "",
+            "icon": "comp7_light_aggressive_detection",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightAggressiveDetectionEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 15
+        },
+        {
+            "id": "comp7_light_march",
+            "index": 9535,
+            "name": "Forced March",
+            "description": "",
+            "icon": "comp7_light_march",
+            "price": 0,
+            "gold_price": 0,
+            "crystal_price": 0,
+            "effect_type": "comp7_light_common.items.comp7_light_artefacts.Comp7LightMarchEquipment",
+            "tags": "notForSale roleEquipment",
+            "incompatible_tags": "",
+            "duration": 10
+        }
+    ],
+    "version": "v20101",
+    "equipment_version": 2
+}
+
+
+for(let i = 0; i < data.equipment.length; i++){
+    console.log('===============');
+    console.log('i', i);
+    console.log('i decoded', toBase62(i));
+    //console.log('codes[i]', codes[i]);
+    //console.log('codes[i] decoded', fromBase62(codes[i]));
+    console.log('id', data.equipment[i].id);
+    console.log('index', data.equipment[i].index);
+    console.log('encoded indexd', toBase62(data.equipment[i].index));
+}
+
+/**
+ * Converts a non-negative integer to its base-62 string representation.
+ * @param num  The integer to convert.
+ * @returns    The base-62 string (0-9A-Za-z).
+ * @throws     Error if the number is negative.
+ */
+function toBase62(num: number): string {
+  if (num < 0) {
+    throw new Error('Input number cannot be negative for base-62 encoding.');
+  }
+  if (num === 0) return '0';
+
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const chars1 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let result = '';
+
+  while (num > 0) {
+    result = chars[num % 62] + result;
+    num = Math.floor(num / 62);
+  }
+  return result;
+}
+
+/**
+ * Converts a base-62 string (0-9A-Za-z) back to an integer.
+ * @param base62String  The base-62 string to convert.
+ * @returns             The integer represented by the string.
+ * @throws              Error if the string contains illegal characters.
+ */
+function fromBase62(base62String: string): number {
+  if (!base62String) return 0;
+
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let result = 0;
+
+  for (const ch of base62String) {
+    const val = chars.indexOf(ch);
+    if (val === -1) {
+      throw new Error(`Invalid base-62 character: ${ch}`);
+    }
+    result = result * 62 + val;
+  }
+  return result;
+}

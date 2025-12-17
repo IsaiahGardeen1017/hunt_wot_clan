@@ -15,13 +15,16 @@ export type TankData = {
 	provisions?: number[];
 };
 
-export type EquipmentDataMap = Record<string, {
+export type EquipmentData = {
 	image?: string;
-	provision_id?: string;
+	provision_id?: number;
 	tag?: string;
 	name?: string;
 	description?: string;
-}>;
+	type?: string;
+};
+
+export type EquipmentDataMap = Record<string, EquipmentData>;
 
 export type TankDataMap = Record<string, TankData>;
 
@@ -54,7 +57,8 @@ export async function fetchVehicleDataBase(tiers: number[] = [10]): Promise<Tank
 export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {
 	const queries = {
 		application_id: Deno.env.get('WOT_APP_ID') || '',
-		fields: 'image,provision_id,tag,name',
+		fields: 'image,provision_id,tag,name,type',
+		type: 'optionalDevice',
 	};
 	const reqUrl = `${BASE_URL}/encyclopedia/provisions/${queryString(queries)}`;
 	console.log(reqUrl);
@@ -64,7 +68,6 @@ export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {
 	const body = (await response.json()) as WotApiResponse<EquipmentDataMap>;
 	return body.data;
 }
-
 
 export function queryString(queries: Record<string, string>): string {
 	const args = [];
