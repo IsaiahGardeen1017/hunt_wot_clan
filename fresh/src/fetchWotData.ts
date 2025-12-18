@@ -1,3 +1,5 @@
+import { ggIdFromShortName } from './tanksggMapper.ts';
+
 const BASE_URL = 'https://api.worldoftanks.com/wot';
 
 export type TankData = {
@@ -13,6 +15,8 @@ export type TankData = {
 	type?: string;
 	tank_id?: number;
 	provisions?: number[];
+	slugName?: string;
+	fieldModTree?: string;
 };
 
 export type EquipmentData = {
@@ -51,7 +55,24 @@ export async function fetchVehicleDataBase(tiers: number[] = [10]): Promise<Tank
 	const response = await fetch(reqUrl, { method: 'GET' });
 
 	const body = (await response.json()) as WotApiResponse<TankDataMap>;
+
+	for (const key in body.data) {
+		const slugName = ggIdFromShortName(body.data[key].short_name || '');
+		body.data[key].slugName = slugName;
+		const additionalData = await getTankDataFromTanksGG(slugName);
+		body.data[key].fieldModTree = additionalData.field_mod_tree;
+	}
+
 	return body.data;
+}
+
+type TanksGGData = {
+	field_mod_tree: string;
+};
+export async function getTankDataFromTanksGG(slugName: string): Promise<TanksGGData> {
+	const resp = await fetch(`https://tanks.gg/api/tank/${slugName}`);
+	const body = (await resp.json()).tank as TanksGGData;
+	return body;
 }
 
 export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {

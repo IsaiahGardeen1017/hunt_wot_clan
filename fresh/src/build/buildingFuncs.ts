@@ -46,7 +46,6 @@ export async function buildEquipmentDictionary() {
 	try {
 		await Deno.removeSync(EQUIP_PATH);
 	} catch (err) {}
-	console.log(EQUIP_PATH);
 	await Deno.writeTextFileSync(EQUIP_PATH, JSON.stringify(data));
 	return data;
 }
@@ -145,4 +144,19 @@ export async function buildTanksggEquipmentIndex() {
 		await Deno.removeSync(EQUIP_INDEX_PATH);
 	} catch (err) {}
 	await Deno.writeTextFileSync(EQUIP_INDEX_PATH, JSON.stringify(data));
+}
+
+export async function buildFieldModDatabase(dict: TankDataMap) {
+	let fieldModTrees = [];
+	for (const tankId in dict) {
+		fieldModTrees.push(dict[tankId].fieldModTree);
+	}
+	for (let i = 0; i < fieldModTrees.length; i++) {
+		let id = fieldModTrees[i];
+	}
+	try {
+		await Deno.removeSync(EQUIP_PATH);
+	} catch (err) {}
+	await Deno.writeTextFileSync(EQUIP_PATH, JSON.stringify(data));
+	return data;
 }
