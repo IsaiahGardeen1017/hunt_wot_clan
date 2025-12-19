@@ -44,6 +44,38 @@ export type WotApiResponse<D> = {
 	data: D;
 };
 
+export type FMstep = {
+	id: number;
+	level: number;
+	price: string;
+	action_type: string;
+	action_value: string;
+	unlocks: string;
+	min_level: number;
+};
+export type FMpair = {
+	id: string;
+	first_name: string;
+	first_price: 0;
+	second_name: string;
+	second_price: 0;
+};
+export type FMmod = {
+	id: 3031;
+	name: string;
+	name_id: string;
+	icon: string;
+	mods: string;
+	kpi: string;
+};
+export type FieldModTreeData = {
+	id: string;
+	root_step: number;
+	steps: FMstep[];
+	pairs: FMpair[];
+	mods: FMmod[];
+};
+
 export async function fetchVehicleDataBase(tiers: number[] = [10]): Promise<TankDataMap> {
 	const queries = {
 		application_id: Deno.env.get('WOT_APP_ID') || '',
@@ -88,6 +120,10 @@ export async function fetchEquipmentMetaData(): Promise<EquipmentDataMap> {
 
 	const body = (await response.json()) as WotApiResponse<EquipmentDataMap>;
 	return body.data;
+}
+
+export async function getFieldModTree(treeId: string) {
+	return (await (await fetch(`https://tanks.gg/api/v20102/fieldmods/${treeId}`)).json()).tree;
 }
 
 export function queryString(queries: Record<string, string>): string {

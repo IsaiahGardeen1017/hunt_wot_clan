@@ -1,10 +1,11 @@
-import { fetchEquipmentMetaData, fetchVehicleDataBase, TankDataMap } from '../fetchWotData.ts';
+import { fetchEquipmentMetaData, fetchVehicleDataBase, FieldModTreeData, getFieldModTree, TankDataMap } from '../fetchWotData.ts';
 import { ggIdFromShortName } from '../tanksggMapper.ts';
 
 export const INDEX_PATH = 'src\\builtData\\tanksGGidToTankId.json';
 export const DICT_PATH = 'src\\builtData\\tankDictionary.json';
 export const EQUIP_PATH = 'src\\builtData\\equipmentDictionary.json';
 export const EQUIP_INDEX_PATH = 'src\\builtData\\equipmentIndex.json';
+export const FM_TREE_PATH = 'src\\builtData\\fieldModTreePath.json';
 
 export async function buildTangsGGIndex(dict: TankDataMap) {
 	const index: Record<string, string> = {};
@@ -146,17 +147,23 @@ export async function buildTanksggEquipmentIndex() {
 	await Deno.writeTextFileSync(EQUIP_INDEX_PATH, JSON.stringify(data));
 }
 
-export async function buildFieldModDatabase(dict: TankDataMap) {
+export async function buildFieldModDatabase(dict: TankDataMap): Promise<Record<string, FieldModTreeData>> {
 	let fieldModTrees = [];
 	for (const tankId in dict) {
 		fieldModTrees.push(dict[tankId].fieldModTree);
 	}
+	let fieldModDictionary: Record<string, FieldModTreeData> = {};
 	for (let i = 0; i < fieldModTrees.length; i++) {
 		let id = fieldModTrees[i];
+		if (id) {
+			const fmTree = await getFieldModTree(id);
+			fieldModDictionary[id] = fmTree;
+		}
 	}
 	try {
-		await Deno.removeSync(EQUIP_PATH);
+		await Deno.removeSync(FM_TREE_PATH);
 	} catch (err) {}
-	await Deno.writeTextFileSync(EQUIP_PATH, JSON.stringify(data));
-	return data;
+	await Deno.writeTextFileSync(FM_TREE_PATH, JSON.stringify(fieldModDictionary));
+
+	return fieldModDictionary;
 }
